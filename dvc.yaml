@@ -1,0 +1,20 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py data/raw/twitter.csv data/prepared
+    deps:
+      - data/raw/twitter.csv
+      - src/prepare.py
+    outs:
+      - data/prepared
+
+  train:
+    cmd: python src/train.py data/prepared data/models
+    deps:
+      - data/prepared
+      - src/train.py
+    outs:
+      - data/models/confusion_matrix.png
+      - data/models/feature_importance.png
+    metrics:
+      - data/models/metrics.json:
+          cache: false

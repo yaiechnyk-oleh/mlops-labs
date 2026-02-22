@@ -1,0 +1,44 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py data/raw/twitter.csv data/prepared
+    deps:
+    - path: data/raw/twitter.csv
+      hash: md5
+      md5: e4e4f90c48d6accade388090f0aec20f
+      size: 3103165
+    - path: src/prepare.py
+      hash: md5
+      md5: 5bc5fc0edd86240475e08ba2a88ecb7e
+      size: 4318
+    outs:
+    - path: data/prepared
+      hash: md5
+      md5: 491a38d89821bf742a82f8d0361e7a1b.dir
+      size: 4849680
+      nfiles: 2
+  train:
+    cmd: python src/train.py data/prepared data/models
+    deps:
+    - path: data/prepared
+      hash: md5
+      md5: 491a38d89821bf742a82f8d0361e7a1b.dir
+      size: 4849680
+      nfiles: 2
+    - path: src/train.py
+      hash: md5
+      md5: 765af4153f6d924252192a3f3693d672
+      size: 11684
+    outs:
+    - path: data/models/confusion_matrix.png
+      hash: md5
+      md5: b5d4881369da4c9e27053bc2ab6306cc
+      size: 34273
+    - path: data/models/feature_importance.png
+      hash: md5
+      md5: 4b41b1901f15a107d1eb28dcf6c00674
+      size: 70314
+    - path: data/models/metrics.json
+      hash: md5
+      md5: 40ed020e4bf2bb074148fd73b3c407f4
+      size: 293
