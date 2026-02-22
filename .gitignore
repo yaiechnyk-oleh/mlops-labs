@@ -10,9 +10,10 @@ venv/
 .venv/
 .env
 
-# Data & Models (large files)
-data/
-models/
+# Data & Models — tracked by DVC (allow .dvc and .gitignore files)
+/data/raw/*.csv
+/data/prepared/
+/models/
 
 # MLflow
 mlruns/
