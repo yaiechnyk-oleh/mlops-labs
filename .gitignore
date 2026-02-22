@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+.env
+
+# Data & Models (large files)
+data/
+models/
+
+# MLflow
+mlruns/
+.trash/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PDF lab files
+*.pdf
+
+# Temporary
+lab1.pdf
