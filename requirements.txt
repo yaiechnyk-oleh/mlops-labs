@@ -11,3 +11,5 @@ optuna
 hydra-core
 omegaconf
 joblib
+pytest
+flake8

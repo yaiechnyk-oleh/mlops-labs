@@ -19,6 +19,8 @@ import os
 import sys
 import warnings
 
+import joblib
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -190,6 +192,9 @@ def train(args: argparse.Namespace):
         "test_f1": f1_score(y_test, y_pred_test),
         "test_precision": precision_score(y_test, y_pred_test),
         "test_recall": recall_score(y_test, y_pred_test),
+        # Top-level aliases for CI Quality Gate
+        "accuracy": accuracy_score(y_test, y_pred_test),
+        "f1": f1_score(y_test, y_pred_test),
     }
 
     print(f"\n      {'Metric':<20} {'Train':>10} {'Test':>10}")
@@ -206,6 +211,10 @@ def train(args: argparse.Namespace):
     metrics_path = os.path.join(args.output_dir, "metrics.json")
     with open(metrics_path, "w") as f:
         json.dump(metrics, f, indent=2)
+
+    # Save model artifact (vectorizer + model as tuple for reproducibility)
+    model_path = os.path.join(args.output_dir, "model.pkl")
+    joblib.dump((vectorizer, model), model_path)
 
     # Save plots
     cm_path = os.path.join(args.output_dir, "confusion_matrix.png")

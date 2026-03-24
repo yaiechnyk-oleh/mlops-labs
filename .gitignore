@@ -12,8 +12,11 @@ venv/
 
 # Data & Models — tracked by DVC (allow .dvc and .gitignore files)
 /data/raw/*.csv
-/data/prepared/
 /models/
+
+# Logs
+*.log
+.hydra/
 
 # MLflow
 mlruns/
