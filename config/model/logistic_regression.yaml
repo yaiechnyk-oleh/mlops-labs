@@ -1,0 +1,7 @@
+type: logistic_regression
+
+search_space:
+  C: {low: 1.0e-3, high: 1.0e2}
+  solver: ["liblinear"]
+  max_features: {low: 1000, high: 15000}
+  ngram_max: [1, 2]

@@ -1,0 +1,23 @@
+defaults:
+  - model: logistic_regression
+  - hpo: optuna
+  - _self_
+
+seed: 42
+
+mlflow:
+  tracking_uri: "mlruns"
+  experiment_name: "HPO_Lab3"
+  log_model: true
+  register_model: false
+  model_name: "TwitterSentimentModel"
+  stage: "Staging"
+
+data:
+  train_path: "data/prepared/train.csv"
+  test_path: "data/prepared/test.csv"
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null

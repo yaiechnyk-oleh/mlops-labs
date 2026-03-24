@@ -7,3 +7,7 @@ mlflow
 jupyter
 wordcloud
 nltk
+optuna
+hydra-core
+omegaconf
+joblib

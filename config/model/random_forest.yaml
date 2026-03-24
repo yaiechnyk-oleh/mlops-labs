@@ -1,0 +1,9 @@
+type: random_forest
+
+search_space:
+  n_estimators: {low: 50, high: 200}
+  max_depth: {low: 3, high: 15}
+  min_samples_split: {low: 2, high: 10}
+  min_samples_leaf: {low: 1, high: 5}
+  max_features: {low: 1000, high: 10000}
+  ngram_max: [1, 2]
