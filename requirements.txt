@@ -11,5 +11,14 @@ optuna
 hydra-core
 omegaconf
 joblib
+
+# CI / Code quality
 pytest
 flake8
+black
+
+# Lab 2: Data versioning
+dvc
+
+# Lab 5: Orchestration (install separately or via docker)
+# apache-airflow==2.8.1

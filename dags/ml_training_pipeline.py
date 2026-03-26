@@ -23,6 +23,7 @@ from airflow.sensors.filesystem import FileSensor
 
 # ── Config ────────────────────────────────────────────────────────────────────
 PROJECT_DIR = os.getenv("MLOPS_PROJECT_DIR", "/opt/airflow/project")
+RAW_DATA_DIR = os.path.join(PROJECT_DIR, "data", "raw")
 DATA_DIR = os.path.join(PROJECT_DIR, "data", "prepared")
 MODELS_DIR = os.path.join(PROJECT_DIR, "data", "models")
 MLFLOW_TRACKING_URI = f"sqlite:///{PROJECT_DIR}/mlflow.db"
@@ -49,10 +50,12 @@ with DAG(
     tags=["mlops", "lab5", "sentiment"],
 ) as dag:
 
-    # ── Step 1: Sensor — check data availability ──────────────────────────────
+    # ── Step 1: Sensor — check raw data availability ──────────────────────────
+    # Checks for the source dataset (raw input), not generated outputs.
+    # This ensures the pipeline only starts when the source data is present.
     check_data = FileSensor(
         task_id="check_data",
-        filepath=os.path.join(DATA_DIR, "train.csv"),
+        filepath=os.path.join(RAW_DATA_DIR, "twitter.csv"),
         poke_interval=30,
         timeout=300,
         mode="poke",

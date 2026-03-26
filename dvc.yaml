@@ -13,6 +13,7 @@ stages:
       - data/prepared
       - src/train.py
     outs:
+      - data/models/model.pkl
       - data/models/confusion_matrix.png
       - data/models/feature_importance.png
     metrics:
