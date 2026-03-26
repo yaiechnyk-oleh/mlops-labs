@@ -1,0 +1,70 @@
+# Lab 5 CI: Code Quality + DAG Integrity + Docker Build
+# Runs on every push and pull request.
+
+name: Lab 5 CI — Lint · DAG Test · Docker Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  # ── Job 1: Lint ──────────────────────────────────────────────────────────────
+  lint:
+    name: Lint (flake8)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Run flake8
+        # E9: runtime errors, F63/F7: bad syntax, F82: undefined names
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  # ── Job 2: DAG integrity test ─────────────────────────────────────────────
+  dag-test:
+    name: DAG Integrity Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install Apache Airflow + pytest
+        run: |
+          pip install --upgrade pip
+          pip install \
+            "apache-airflow==2.8.1" \
+            --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.8.1/constraints-3.11.txt"
+          pip install pytest
+
+      - name: Initialize Airflow DB (required for DagBag)
+        run: airflow db migrate
+        env:
+          AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+          AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////tmp/airflow-test.db
+
+      - name: Run DAG integrity tests
+        run: pytest tests/test_dag.py -v
+        env:
+          AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+          AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: sqlite:////tmp/airflow-test.db
+
+  # ── Job 3: Docker build ───────────────────────────────────────────────────
+  docker-build:
+    name: Docker Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t mlops-lab5:ci .

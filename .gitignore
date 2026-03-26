@@ -39,3 +39,13 @@ Thumbs.db
 
 # Temporary
 lab1.pdf
+
+# Airflow
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+logs/
+standalone_admin_password.txt
+
+# MLflow SQLite registry (Lab 5)
+mlflow.db
