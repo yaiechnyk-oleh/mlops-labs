@@ -223,9 +223,10 @@ def train(args: argparse.Namespace):
     fi_path = os.path.join(args.output_dir, "feature_importance.png")
     plot_feature_importance(model, vectorizer, args.model_type, fi_path)
 
-    # Log to MLflow
-    mlflow.set_tracking_uri(f"file://{os.path.join(PROJECT_ROOT, 'mlruns')}")
-    mlflow.set_experiment(EXPERIMENT_NAME)
+    # Log to MLflow (allow override via env var for container environments)
+    default_uri = f"file://{os.path.join(PROJECT_ROOT, 'mlruns')}"
+    mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", default_uri))
+    mlflow.set_experiment(os.environ.get("MLFLOW_EXPERIMENT_NAME", EXPERIMENT_NAME))
 
     with mlflow.start_run():
         # Tags

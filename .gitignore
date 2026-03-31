@@ -20,7 +20,14 @@ venv/
 
 # MLflow
 mlruns/
+mlruns_airflow/
 .trash/
+
+# Word docs
+*.docx
+
+# Airflow persistent data
+airflow-data/
 
 # Jupyter
 .ipynb_checkpoints/

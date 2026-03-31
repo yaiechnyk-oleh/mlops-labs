@@ -1,0 +1,8 @@
+FROM apache/airflow:2.8.1-python3.11
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends gcc g++ && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt /opt/requirements.txt
+RUN chown airflow /opt/requirements.txt
+USER airflow
+RUN pip install --no-cache-dir -r /opt/requirements.txt
+RUN python -c "import nltk; nltk.download('stopwords', quiet=True); nltk.download('punkt', quiet=True)"
